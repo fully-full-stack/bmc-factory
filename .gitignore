@@ -1,0 +1,21 @@
+# OSX
+#
+.DS_Store
+
+# IntelliJ
+#
+.idea
+*.iml
+
+# Visual Studio Code
+#
+.vscode/
+
+# node.js
+#
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Bundle artifact
+/dist/

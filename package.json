@@ -1,0 +1,44 @@
+{
+  "name": "bmc-factory",
+  "version": "1.0.0",
+  "description": "Business Model Canvas Web",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "webpack-dev-server --open --config webpack.dev.js",
+    "build": "webpack --config webpack.prod.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fully-full-stack/bmc-factory.git"
+  },
+  "keywords": [
+    "bmc",
+    "canvas",
+    "startup",
+    "lean-startup",
+    "business-model-canvas"
+  ],
+  "author": "Alex Rodin <contato@alexrodin.info>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fully-full-stack/bmc-factory/issues"
+  },
+  "homepage": "https://github.com/fully-full-stack/bmc-factory#readme",
+  "dependencies": {
+    "zepto": "1.2.0",
+    "dragsort": "1.0.6"
+  },
+  "devDependencies": {
+    "webpack": "4.42.0",
+    "webpack-cli": "3.3.11",
+    "webpack-merge": "4.2.2",
+    "css-loader": "3.4.2",
+    "imports-loader": "0.8.0",
+    "webpack-dev-server": "3.10.3",
+    "html-webpack-plugin": "3.2.0",
+    "clean-webpack-plugin": "3.0.0",
+    "mini-css-extract-plugin": "0.9.0",
+    "html-webpack-inline-source-plugin": "0.0.10",
+    "optimize-css-assets-webpack-plugin": "5.0.3"
+  }
+}

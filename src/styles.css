@@ -1,0 +1,637 @@
+body {
+    font-family: arial, helvetica;
+    font-size: 0.75em;
+    margin: 0;
+    padding: 0;
+    background: #EDECEC;
+    color: #666666;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 2px;
+    height: 2px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+textarea, select, input, button {
+    outline: none;
+}
+
+a {
+    color: #111144;
+    text-decoration: none;
+}
+
+a:hover {
+    background-color: #111144;
+    color: #FFFFFF;
+}
+
+#github {
+    position: absolute;
+    bottom: 1px;
+    right: 5px;
+    font-size: 11px;
+    color: #79589F;
+    font-style: italic;
+}
+
+#display {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    border: none;
+    padding: 0 0 10px;
+}
+
+
+#display .canvas {
+    display: flex;
+    flex: 1;
+}
+
+#bmc {
+    width: 100%;
+    height: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    background: #FFF;
+}
+
+#bmc td {
+    border: 1px solid #073763;
+    position: relative;
+    vertical-align: top;
+    padding: 0 10px;
+}
+
+#bmc td.bottom {
+    padding: 0;
+    border: 0 none;
+}
+
+#bmc .header .resume {
+    top: -5px;
+    position: absolute;
+    left: 5px;
+    opacity: 0;
+    right: 5px;
+    padding: 5px;
+    visibility: hidden;
+    transition: all 0.1s linear;
+    z-index: 59;
+    background: rgba(0, 0, 0, 0.9);
+    color: #fff;
+    border-radius: 4px;
+}
+
+#bmc .header:hover .resume {
+    opacity: 1;
+    visibility: visible;
+    top: 5px;
+}
+
+#bmc svg {
+    width: 80px;
+    height: 80px;
+    position: absolute;
+    fill: #efefef;
+    top: 30%;
+    left: 30%;
+    max-width: 40%;
+    max-height: 40%;
+}
+
+.resume ul {
+    padding: 0px;
+    margin: 0;
+}
+
+td .content {
+    width: 100%;
+    height: 100%;
+}
+
+td .postit .content {
+    word-break: break-word;
+}
+
+.content h2 {
+    color: #333333;
+    font-style: italic;
+    line-height: 1.2;
+    font-size: 1.5em;
+    font-weight: 700;
+    margin: .5em 0;
+}
+
+.resume ul li {
+    font-size: 12px;
+    list-style: none outside none;
+    margin: 0;
+    padding: 0;
+    /*white-space: nowrap;*/
+}
+
+label, .label {
+    display: inline-block;
+    position: relative;
+    text-align: left;
+    padding: 3px;
+    padding-right: 0;
+    vertical-align: top;
+}
+
+label span,
+.label span {
+    left: 6px;
+    top: 3px;
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    font: normal 11px/15px tahoma, arial, verdana, sans-serif;
+    vertical-align: top;
+}
+
+label textarea {
+    height: 50px;
+    width: 200px;
+    resize: none;
+    padding-top: 18px;
+}
+
+label.version textarea {
+    height: 50px;
+    width: 50px;
+    resize: none;
+    padding-top: 18px;
+}
+
+label select {
+    margin-left: 80px;
+}
+
+.import-container label {
+    position: relative;
+    line-height: 24px;
+    margin: 3px;
+}
+
+.import-container label span {
+    left: 0;
+    padding: 0 5px;
+    position: relative;
+    top: 0;
+}
+
+.import-container label input {
+    margin: 0;
+    vertical-align: sub;
+}
+
+.header-info {
+    display: block;
+    position: relative;
+    right: 0;
+    text-align: right;
+}
+
+.header-info .buttons-group {
+    display: block;
+    float: right;
+    margin-left: 4px;
+}
+
+.header-info .buttons-group .label {
+    display: table;
+    text-align: right;
+    width: 100%;
+}
+
+.postit-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.postit {
+    text-align: center;
+    width: 100px;
+    margin: 3px;
+    color: #222;
+    padding: 2px;
+    position: relative;
+    font-family: 'Nothing You Could Do', Arial;
+    font-size: 14px;
+    background: rgb(255, 255, 136);
+    float: left;
+    border: 0;
+    min-height: 50px;
+}
+
+.postit:hover {
+    z-index: 100;
+}
+
+.postit.new {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #F0EDF9;
+    color: #F0EDF9;
+    font-size: 40px;
+    height: 40px;
+    min-height: 0;
+    line-height: 40px;
+    width: 40px;
+    cursor: pointer;
+    border-radius: 50px;
+    padding: 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 5;
+}
+
+.postit.new:hover {
+    border: 1px solid #79589F;
+    color: #79589F;
+    cursor: pointer;
+}
+
+.postit.clone {
+    height: 30px;
+    background-color: white !important;
+    border: dashed 1px gray !important;
+}
+
+/* Botões de ação*/
+.button {
+    cursor: pointer;
+    border: 1px solid #A194C9;
+    color: #79589F;
+    border-left-width: 0;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: normal;
+    height: 24px;
+    line-height: 24px;
+    flex: 1;
+    text-align: center;
+    margin: 0;
+    background: #F0EDF9;
+    transition: .1s all linear;
+}
+
+.button.danger {
+    border-color: #f44336;
+    color: #f44336;
+    background: #FFF;
+    opacity: 0.7;
+}
+
+.button:first-child {
+    border-left-width: 1px;
+}
+
+button.button, select.button {
+    border-left-width: 1px;
+    height: 24px;
+    line-height: 20px;
+}
+
+.button.color {
+    /*background: rgb(255, 255, 136);*/
+}
+
+.button.drag {
+    flex: 2;
+}
+
+.button:hover {
+    background: none repeat scroll 0 0 #4A90E2;
+    /*border-color: #4A90E2;*/
+    color: #FFF;
+}
+
+.button.big {
+    font-size: 14px;
+    font-weight: bold;
+    height: 24px;
+    line-height: 23px;
+    margin: 5px;
+    border: 1px solid #A194C9;
+    padding: 0 5px;
+}
+
+/* Cada um dos paineis do sistema */
+.panel {
+    border: 1px solid #999999;
+    margin: 5px;
+    padding: 15px;
+}
+
+
+/* Barra de opções de cada painel*/
+.panel .toolbar {
+    text-align: right;
+    font-size: .9em;
+    position: absolute;
+    top: 0;
+    right: 0;
+    opacity: 0;
+    width: 100%;
+    display: flex;
+    visibility: hidden;
+    align-content: initial;
+    justify-content: space-between;
+    transition: all 0.1s linear;
+}
+
+.panel .postit:not(.edit):hover .toolbar {
+    opacity: 1;
+    visibility: visible;
+    top: -22px;
+}
+
+/* Título do painel */
+.panel .title {
+    color: #57C;
+    color: #841;
+    color: black;
+    font-size: 32px;
+    float: left;
+}
+
+div.color-palette {
+    background-color: #EFEFEF;
+    border: 1px solid #598FEF;
+    padding: 2px;
+    position: absolute;
+    width: 110px;
+    z-index: 100;
+}
+
+div.color-palette .swatch {
+    border: 1px solid #000000;
+    cursor: pointer;
+    float: left;
+    height: 12px;
+    line-height: 12px;
+    margin: 2px;
+    width: 12px;
+}
+
+div.color-palette .swatch:hover {
+    border: 1px solid #598FEF;
+}
+
+/* Todas as cores possíveis para os postits*/
+.bg_color_0_0_0 {
+    background-color: rgb(0, 0, 0);
+    color: #FFFFFF;
+}
+
+.bg_color_0_0_128 {
+    background-color: rgb(0, 0, 128);
+    color: #CCCCCC;
+}
+
+.bg_color_0_128_0 {
+    background-color: rgb(0, 128, 0);
+}
+
+.bg_color_0_128_128 {
+    background-color: rgb(0, 128, 128);
+}
+
+.bg_color_0_204_255 {
+    background-color: rgb(0, 204, 255);
+}
+
+.bg_color_0_255_0 {
+    background-color: rgb(0, 255, 0);
+}
+
+.bg_color_0_255_255 {
+    background-color: rgb(0, 255, 255);
+}
+
+.bg_color_51_51_0 {
+    background-color: rgb(51, 51, 0);
+    color: #CCCCCC;
+}
+
+.bg_color_51_51_51 {
+    background-color: rgb(51, 51, 51);
+    color: #CCCCCC;
+}
+
+.bg_color_51_51_153 {
+    background-color: rgb(51, 51, 153);
+}
+
+.bg_color_51_102_255 {
+    background-color: rgb(51, 102, 255);
+}
+
+.bg_color_51_153_102 {
+    background-color: rgb(51, 153, 102);
+}
+
+.bg_color_51_204_204 {
+    background-color: rgb(51, 204, 204);
+}
+
+.bg_color_102_102_153 {
+    background-color: rgb(102, 102, 153);
+}
+
+.bg_color_128_0_0 {
+    background-color: rgb(128, 0, 0);
+    color: #CCCCCC;
+}
+
+.bg_color_128_0_128 {
+    background-color: rgb(128, 0, 128);
+    color: #CCCCCC;
+}
+
+.bg_color_128_128_0 {
+    background-color: rgb(128, 128, 0);
+}
+
+.bg_color_128_128_128 {
+    background-color: rgb(128, 128, 128);
+}
+
+.bg_color_153_51_0 {
+    background-color: rgb(153, 51, 0);
+}
+
+.bg_color_153_51_102 {
+    background-color: rgb(153, 51, 102);
+    color: #FFFFFF;
+}
+
+.bg_color_153_153_153 {
+    background-color: rgb(153, 153, 153);
+}
+
+.bg_color_153_204_0 {
+    background-color: rgb(153, 204, 0);
+}
+
+.bg_color_153_204_255 {
+    background-color: rgb(153, 204, 255);
+}
+
+.bg_color_192_192_192 {
+    background-color: rgb(192, 192, 192);
+}
+
+.bg_color_204_255_255 {
+    background-color: rgb(204, 255, 255);
+}
+
+.bg_color_204_0_0 {
+    background-color: rgb(255, 0, 0);
+}
+
+.bg_color_204_0_255 {
+    background-color: rgb(255, 0, 255);
+}
+
+.bg_color_255_102_0 {
+    background-color: rgb(255, 102, 0);
+}
+
+.bg_color_255_153_0 {
+    background-color: rgb(255, 153, 0);
+}
+
+.bg_color_255_153_204 {
+    background-color: rgb(255, 153, 204);
+}
+
+.bg_color_255_204_0 {
+    background-color: rgb(255, 204, 0);
+}
+
+.bg_color_255_204_153 {
+    background-color: rgb(255, 204, 153);
+}
+
+.bg_color_255_255_0 {
+    background-color: rgb(255, 255, 0);
+}
+
+.bg_color_255_255_136 {
+    background-color: rgb(255, 255, 136);
+}
+
+.bg_color_255_255_153 {
+    background-color: rgb(255, 255, 153);
+}
+
+.bg_color_255_255_255 {
+    background-color: rgb(255, 255, 255);
+}
+
+/* Colunas do painel*/
+.col {
+    vertical-align: top;
+}
+
+.cols2 .col {
+    float: left;
+    width: 49%;
+}
+
+.cols,
+.cols2 {
+    overflow: auto;
+}
+
+.viewer {
+    clear: both;
+    padding-bottom: 3px;
+    line-height: 1.4em;
+    padding-top: 0.5em;
+}
+
+input, textarea, select {
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+}
+
+input, textarea {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    margin: 0;
+    color: black;
+    padding: 1px 3px;
+    border: 1px solid #B5B8C8;
+    background-color: #FFFFFF;
+    padding: 0 2px;
+    padding-bottom: 1px;
+    font: normal 11px/15px tahoma, arial, verdana, sans-serif;
+    vertical-align: top;
+}
+
+input {
+    height: 20px;
+}
+
+.postit textarea {
+    margin: 0;
+    color: inherit;
+    background-color: rgba(255, 255, 255, 0.5);
+    padding-bottom: 1px;
+    font: inherit;
+    vertical-align: top;
+    border: 0;
+    resize: none;
+    text-align: center;
+    padding: 0;
+    margin-left: -1px;
+    z-index: 2;
+}
+
+#export-import-model {
+    height: 300px;
+    width: 600px;
+    max-height: 300px;
+    max-width: 600px;
+    min-height: 300px;
+    min-width: 600px;
+}
+
+@media print {
+    .header-info .buttons-group,
+    .postit.new,
+    .postit.edit {
+        display: none;
+    }
+}
