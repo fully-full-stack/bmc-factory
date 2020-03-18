@@ -60,26 +60,42 @@ function PostitColorPicker() {
 /**
  * Exibe o picker
  */
-PostitColorPicker.prototype.show = function (buttonColor) {
+PostitColorPicker.prototype.show = function (buttonColor, onChange) {
     var offset = $(buttonColor).offset();
+    this._onChange = onChange;
     this._postitNow = $(buttonColor).parent().parent();
     var left = offset.left;
     var top = offset.top;
-    $('#color-palette').show().offset({"top": top, "left": left});
+    var $palette = $('#color-palette');
+    $palette.show();
+
+    var width = $('#color-palette').width();
+    var height = $('#color-palette').height();
+
+    if (left + width > window.innerWidth) {
+        left = window.innerWidth - width - 10;
+    }
+
+    if (top + height > window.innerHeight) {
+        top = window.innerHeight - height - 20;
+    }
+
+    $palette.offset({
+        "top": top,
+        "left": left
+    });
 };
 
 /**
  * Seta cor de um postit
  */
 PostitColorPicker.prototype.setPostitColor = function (postit, color) {
-    let $el = $(postit);
+    var $el = $(postit);
     $('.color', $el).removeClass(this._colors).addClass(color);
     $el.removeClass(this._colors).addClass(color);
 
-    // console.log('color',color.replace('bg_color_', '').split('_'));
-    let rgb = color.replace('bg_color_', '').split('_');
-    let txtColor =  getCorrectTextColor(rgb[0], rgb[1], rgb[2]);
-    console.log(txtColor);
+    var rgb = color.replace('bg_color_', '').split('_');
+    var txtColor = getCorrectTextColor(rgb[0], rgb[1], rgb[2]);
     $el[0].style.color = txtColor;
 };
 
@@ -91,6 +107,9 @@ PostitColorPicker.prototype.set = function (selected) {
         var color = $(selected).attr('class').replace('swatch ', '');
         postitColorPicker.setPostitColor($(this._postitNow), color);
         $('#color-palette').hide();
+        if (this._onChange) {
+            this._onChange();
+        }
     }
 };
 

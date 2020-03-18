@@ -14,7 +14,7 @@ require('dragsort');
 require('./color-picker');
 
 
-const LANGUAGE = {
+var LANGUAGE = {
     ptBR: require('./i18n/pt-BR'),
     enUS: require('./i18n/en-US')
 };
@@ -48,9 +48,9 @@ function _(message, params) {
 function translate(lang) {
     DICTIONARY = LANGUAGE[lang];
     $('._t').each(function (i, item) {
-        let $el = $(item);
+        var $el = $(item);
         var label = $el.attr('id');
-        let value = _(label);
+        var value = _(label);
         if ($el.is('textarea, input')) {
             $el[0].placeholder = value;
         } else {
@@ -60,9 +60,7 @@ function translate(lang) {
     return null;
 }
 
-function BMC() {
-
-}
+var BMC = {};
 
 /**
  * Versão deste BMC
@@ -140,7 +138,7 @@ BMC.save = function () {
         postits[block].push(postitData);
     });
 
-    let $version = $('#version');
+    var $version = $('#version');
     var version = Number.parseInt($.trim($version.val()), 10);
     if (Number.isNaN(version)) {
         version = 1;
@@ -178,30 +176,30 @@ function focusPostitInput() {
  * @constructor
  */
 function Postit(parentElement, content, color, ignoreEditing) {
-    let that = this;
+    var that = this;
 
     if (!Postit.EDITING || ignoreEditing) {
 
         Postit.INSTANCES.push(this);
 
-        that.$el = $(`
-            <li class="postit bg_color_255_255_136">
-                <div class="toolbar">
-                    <span class="button delete" title="Remove">X</span>
-                    <span class="button clone" title="Clone">C</span>
-                    <span class="button drag" title="Move">::</span>
-                    <span class="button edit" title="Edit">E</span>
-                    <span class="button color bg_color_255_255_136" title="Change color">&nbsp;</span>
-                </div>
-                <div class="content"></div>
-            </li>
-        `);
+        that.$el = $([
+            '<li class="postit bg_color_255_255_136">',
+            '    <div class="toolbar">',
+            '        <span class="button delete" title="Remove">X</span>',
+            '        <span class="button drag" title="Move">::</span>',
+            '        <span class="button edit" title="Edit">E</span>',
+            '        <span class="button color bg_color_255_255_136" title="Change color">&nbsp;</span>',
+            '    </div>',
+            '    <div class="content"></div>',
+            '</li>'
+        ].join(''));
+
         that.$el.appendTo(parentElement);
 
         //Adiciona evento para modificação da cor do postit
         $('.button.color', that.$el).on('click', function (e) {
             e.preventDefault();
-            window.postitColorPicker.show($(this));
+            window.postitColorPicker.show($(this), BMC.save);
         });
 
         //Adiciona evento para deleção do postit
@@ -279,8 +277,8 @@ Postit.prototype.edit = function () {
             .height(height)
             .attr('id', id + '_field')
             .on('blur', function () {
-                let $textarea = $(this);
-                let value = $.trim($textarea.val());
+                var $textarea = $(this);
+                var value = $.trim($textarea.val());
                 if (value !== '') {
                     $content.html(value);
                     Postit.EDITING = null;
@@ -307,7 +305,7 @@ Postit.prototype.delete = function () {
     if (resp == true) {
         this.$el.remove();
         Postit.EDITING = null;
-        let idx = Postit.INSTANCES.indexOf(this);
+        var idx = Postit.INSTANCES.indexOf(this);
         if (idx >= 0) {
             Postit.INSTANCES.splice(idx, 1);
         }
@@ -321,7 +319,7 @@ Postit.prototype.delete = function () {
 function exportJSON() {
 
     // Faz TAG da versão
-    let $version = $('#version');
+    var $version = $('#version');
     var version = Number.parseInt($.trim($version.val()), 10);
     if (Number.isNaN(version)) {
         version = 1;
@@ -332,7 +330,7 @@ function exportJSON() {
     var json = BMC.save();
 
     // Create an invisible A element
-    const a = document.createElement("a");
+    var a = document.createElement("a");
     a.style.display = "none";
     document.body.appendChild(a);
 
@@ -342,7 +340,7 @@ function exportJSON() {
     );
 
 
-    let name = json.designedFor;
+    var name = json.designedFor;
     if (name === '') {
         name = 'unnamed';
     }
@@ -374,7 +372,7 @@ function exportTXT() {
     a.style.display = "none";
     document.body.appendChild(a);
 
-    let name = json.designedFor;
+    var name = json.designedFor;
     if (name === '') {
         name = 'Unnamed';
     }
@@ -386,44 +384,45 @@ function exportTXT() {
         }
 
         return '   ' + items.map(function (item, index) {
-            return `${index + 1}. ${item.content}`
+            return '' + (index + 1) + '. ' + item.content;
         }).join('\n      ');
     }
 
     var author = json.designedBy !== '' ? ', ' + _('L_TXT_BY') + ' ' + json.designedBy : '';
-    var content = `${_('L_TXT_BM')} - ${name} (${_('L_TXT_VERSION')} ${json.version}${author})
-
-${_('L_TXT_WHAT')}
-   ${_('L_VP')}
-   ${list(json.items.vp)}
-
-${_('L_TXT_WHO')}
-   ${_('L_CSG')}
-   ${list(json.items.csg)}
-    
-   ${_('L_CR')}
-   ${list(json.items.cr)}
-    
-   ${_('L_CH')}
-   ${list(json.items.ch)}
-
-${_('L_TXT_HOW')}
-   ${_('L_KA')}
-   ${list(json.items.ka)}
-    
-   ${_('L_KS')}
-   ${list(json.items.ks)}
-   
-   ${_('L_KP')}
-   ${list(json.items.kp)}
-
-${_('L_TXT_HOW_MUCH')}
-   ${_('L_RS')}
-   ${list(json.items.rs)}
-   
-   ${_('L_CS')}
-   ${list(json.items.cs)}
-`;
+    var content = [
+        _('L_TXT_BM') + ' - ' + name + ' (' + _('L_TXT_VERSION') + ' ' + json.version + author + ')',
+        '',
+        _('L_TXT_WHAT'),
+        '   ' + _('L_VP'),
+        '   ' + list(json.items.vp),
+        '',
+        _('L_TXT_WHO'),
+        '   ' + _('L_CSG'),
+        '   ' + list(json.items.csg),
+        '    ',
+        '   ' + _('L_CR'),
+        '   ' + list(json.items.cr),
+        '    ',
+        '   ' + _('L_CH'),
+        '   ' + list(json.items.ch),
+        '',
+        _('L_TXT_HOW'),
+        '   ' + _('L_KA'),
+        '   ' + list(json.items.ka),
+        '    ',
+        '   ' + _('L_KS'),
+        '   ' + list(json.items.ks),
+        '   ',
+        '   ' + _('L_KP'),
+        '   ' + list(json.items.kp),
+        '',
+        _('L_TXT_HOW_MUCH'),
+        '   ' + _('L_RS'),
+        '   ' + list(json.items.rs),
+        '   ',
+        '   ' + _('L_CS'),
+        '   ' + list(json.items.cs),
+    ].join('\n');
 
     name = 'bmc-' + name.toLowerCase().replace(/(\s+)/g, '-');
     name += '-v' + json.version;
@@ -448,7 +447,7 @@ ${_('L_TXT_HOW_MUCH')}
  * Importa os dados para o modelo
  */
 function importJSON(doIMportData) {
-    const input = document.createElement("input");
+    var input = document.createElement("input");
     input.type = 'file';
     input.accept = '.json,application/json';
     input.style.display = "none";
@@ -531,14 +530,14 @@ $(function () {
         });
 
     //Adiciona evento de alteração de idioma
-    let $language = $('#language-list');
+    var $language = $('#language-list');
     $language.on('change', function () {
-        let lang = $(this).val();
+        var lang = $(this).val();
         DICTIONARY = LANGUAGE[lang];
         $('._t').each(function (i, item) {
-            let $el = $(item);
+            var $el = $(item);
             var label = $el.attr('id');
-            let value = _(label);
+            var value = _(label);
             if ($el.is('textarea, input')) {
                 $el[0].placeholder = value;
             } else {
@@ -588,7 +587,7 @@ $(function () {
     var saved = localStorage.getItem('BMC');
     if (saved) {
         try {
-            let data = JSON.parse(saved);
+            var data = JSON.parse(saved);
             BMC.load(data);
         } catch (e) {
             console.log(e);
